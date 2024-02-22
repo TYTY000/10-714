@@ -108,7 +108,17 @@ class MultiHeadAttention(Module):
         probs = None
 
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        X = self.matmul(q, k) / np.sqrt(q_dim)
+        if self.causal:
+            mask = self.create_causal_mask(queries_len, keys_values_len, self.device)
+            X = self.softmax(X + mask.broadcast_to(X.shape))
+        else:
+            mask = np.zeros_like(X)
+            X = self.softmax(X + mask)
+        X = self.dropout(X)
+        probs = X
+        X = self.matmul(X, v.transpose())
+        result = X
         ### END YOUR SOLUTION
 
         return result, probs
@@ -202,7 +212,19 @@ class AttentionLayer(Module):
         result = None
 
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        # 1.
+        Q = self.q_projection(self.prenorm_q(q.reshape((batch_size * queries_len, q_dim))))
+        K = self.k_projection(self.prenorm_k(k.reshape((batch_size * keys_values_len, k_dim))))
+        V = self.v_projection(self.prenorm_v(v.reshape((batch_size * keys_values_len, v_dim))))
+        # 2.
+        Q,K,V = [m.reshape((batch_size, queries_len, self.num_head, self.dim_head)).transpose((1,2)) for m in (Q, K, V)]
+        # 3.
+        X, _ = self.attn(Q,K,V)
+        X = X.transpose((1,2))
+        X = X.reshape((batch_size, queries_len, self.num_head * self.dim_head))
+        # 4.
+        result = self.out_projection(X.reshape((batch_size * queries_len, self.num_head * self.dim_head)))
+        result = result.reshape((batch_size, queries_len, self.out_features))
         ### END YOUR SOLUTION
 
         return result
@@ -229,7 +251,13 @@ class TransformerLayer(Module):
         self.dtype = dtype
 
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        self.dropout = Dropout(dropout)
+        self.layer = LayerNorm1d(q_features, device=device, dtype=dtype)
+        self.attn = AttentionLayer(q_features, num_head, dim_head, k_features=q_features, dropout=dropout, causal=causal, device=device, dtype=dtype)
+        self.relu = ReLU()
+        # NOTE: bias = True!!!!!
+        self.linear1 = Linear(q_features, hidden_size, device=device,dtype=dtype)
+        self.linear2 = Linear(hidden_size, q_features, device=device,dtype=dtype)
         ### END YOUR SOLUTION
 
     def forward(
@@ -245,7 +273,16 @@ class TransformerLayer(Module):
         batch_size, seq_len, x_dim = x.shape
 
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        x_ = self.attn(x)
+        x = x + self.dropout(x_)
+        x_ = self.layer(x.reshape((batch_size * seq_len, x_dim)))
+        x_ = self.linear1(x_)
+        x_ = self.relu(x_)
+        x_ = self.dropout(x_)
+        x_ = self.linear2(x_)
+        x_ = self.dropout(x_)
+        x_ = x_.reshape((batch_size, seq_len, x_dim))
+        x = x + x_
         ### END YOUR SOLUTION
 
         return x
@@ -276,7 +313,10 @@ class Transformer(Module):
         self.batch_first = batch_first
 
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        self.sequence_len = sequence_len
+        self.trans = [TransformerLayer(embedding_size, num_head, dim_head, hidden_size, dropout=dropout, causal=causal, device=device, dtype=dtype)
+                      for _ in range(num_layers)]
+        self.embedding = Embedding(sequence_len, embedding_size, device, dtype)
         ### END YOUR SOLUTION
 
     def forward(
@@ -288,7 +328,17 @@ class Transformer(Module):
             x = ops.transpose(x, axes=(0, 1))
 
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        # x => (seq_len, bs, input_dim)
+        print(x.shape)
+        n, b, d = x.shape
+        x_emb = self.embedding(x.reshape((n*b,))).view(n, b, -1)
+        x_emb = x_emb.reshape((n,b,d,self.embedding.embedding_dim))
+        print(x_emb.shape)
+        # x_emb = (seq_len * bs, input_dim,  embedding_size)
+        # x = x + self.trans[0].attn.attn.matmul(x, x_emb)
+        # print(x.shape)
+        # for t in self.trans:
+        #     x = t(x)
         ### END YOUR SOLUTION
 
         if not self.batch_first:

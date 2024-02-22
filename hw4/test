@@ -1,0 +1,2887 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.5, pytest-7.4.4, pluggy-1.0.0 -- /root/miniconda3/bin/python3
+cachedir: .pytest_cache
+rootdir: /mnt/d/project/10-714/hw4
+plugins: anyio-4.2.0
+collecting ... collected 1803 items / 1777 deselected / 26 selected
+
+tests/hw4/test_conv.py::test_dilate_forward[needle.backend_ndarray.ndarray_backend_cpu] FAILED [  3%]
+tests/hw4/test_conv.py::test_dilate_forward[needle.backend_ndarray.ndarray_backend_cuda] FAILED [  7%]
+tests/hw4/test_conv.py::test_dilate_backward[params0-needle.backend_ndarray.ndarray_backend_cpu] FAILED [ 11%]
+tests/hw4/test_conv.py::test_dilate_backward[params0-needle.backend_ndarray.ndarray_backend_cuda] FAILED [ 15%]
+tests/hw4/test_conv.py::test_dilate_backward[params1-needle.backend_ndarray.ndarray_backend_cpu] FAILED [ 19%]
+tests/hw4/test_conv.py::test_dilate_backward[params1-needle.backend_ndarray.ndarray_backend_cuda] FAILED [ 23%]
+tests/hw4/test_conv.py::test_dilate_backward[params2-needle.backend_ndarray.ndarray_backend_cpu] FAILED [ 26%]
+tests/hw4/test_conv.py::test_dilate_backward[params2-needle.backend_ndarray.ndarray_backend_cuda] FAILED [ 30%]
+tests/hw4/test_conv.py::test_dilate_backward[params3-needle.backend_ndarray.ndarray_backend_cpu] FAILED [ 34%]
+tests/hw4/test_conv.py::test_dilate_backward[params3-needle.backend_ndarray.ndarray_backend_cuda] FAILED [ 38%]
+tests/hw4/test_conv.py::test_dilate_backward[params4-needle.backend_ndarray.ndarray_backend_cpu] FAILED [ 42%]
+tests/hw4/test_conv.py::test_dilate_backward[params4-needle.backend_ndarray.ndarray_backend_cuda] FAILED [ 46%]
+tests/hw4/test_conv.py::test_dilate_backward[params5-needle.backend_ndarray.ndarray_backend_cpu] FAILED [ 50%]
+tests/hw4/test_conv.py::test_dilate_backward[params5-needle.backend_ndarray.ndarray_backend_cuda] FAILED [ 53%]
+tests/hw4/test_conv.py::test_dilate_backward[params6-needle.backend_ndarray.ndarray_backend_cpu] FAILED [ 57%]
+tests/hw4/test_conv.py::test_dilate_backward[params6-needle.backend_ndarray.ndarray_backend_cuda] FAILED [ 61%]
+tests/hw4/test_conv.py::test_dilate_backward[params7-needle.backend_ndarray.ndarray_backend_cpu] FAILED [ 65%]
+tests/hw4/test_conv.py::test_dilate_backward[params7-needle.backend_ndarray.ndarray_backend_cuda] FAILED [ 69%]
+tests/hw4/test_conv.py::test_dilate_backward[params8-needle.backend_ndarray.ndarray_backend_cpu] FAILED [ 73%]
+tests/hw4/test_conv.py::test_dilate_backward[params8-needle.backend_ndarray.ndarray_backend_cuda] FAILED [ 76%]
+tests/hw4/test_conv.py::test_dilate_backward[params9-needle.backend_ndarray.ndarray_backend_cpu] FAILED [ 80%]
+tests/hw4/test_conv.py::test_dilate_backward[params9-needle.backend_ndarray.ndarray_backend_cuda] FAILED [ 84%]
+tests/hw4/test_conv.py::test_dilate_backward[params10-needle.backend_ndarray.ndarray_backend_cpu] FAILED [ 88%]
+tests/hw4/test_conv.py::test_dilate_backward[params10-needle.backend_ndarray.ndarray_backend_cuda] FAILED [ 92%]
+tests/hw4/test_conv.py::test_dilate_backward[params11-needle.backend_ndarray.ndarray_backend_cpu] FAILED [ 96%]
+tests/hw4/test_conv.py::test_dilate_backward[params11-needle.backend_ndarray.ndarray_backend_cuda] FAILED [100%]
+
+=================================== FAILURES ===================================
+_______ test_dilate_forward[needle.backend_ndarray.ndarray_backend_cpu] ________
+
+device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    def test_dilate_forward(device):
+        np.random.seed(0)
+        device = ndl.cpu()
+    
+        _A = np.random.randint(1, 10, size=(2, 5))
+        A = ndl.Tensor(_A, device=device)
+>       assert np.linalg.norm(ndl.dilate(A, dilation=0, axes=(0,)).numpy() - np.array([[6., 1., 4., 4., 8.],
+           [4., 6., 3., 5., 8.]])) < 1e-5
+
+A          = needle.Tensor([[6. 1. 4. 4. 8.]
+ [4. 6. 3. 5. 8.]])
+_A         = array([[6, 1, 4, 4, 8],
+       [4, 6, 3, 5, 8]])
+device     = cpu()
+
+tests/hw4/test_conv.py:202: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[6. 1. 4. 4. 8.]
+ [4. 6. 3. 5. 8.]])
+        axes       = (0,)
+        dilation   = 0
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[6. 1. 4. 4. 8.]
+ [4. 6. 3. 5. 8.]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb1bc6e3d0>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[6. 1. 4. 4. 8.]
+ [4. 6. 3. 5. 8.]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb1bc6e3d0>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb1b6a4b10>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb1b6a4b10>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[6. 1. 4. 4. 8.]
+ [4. 6. 3. 5. 8.]], device=cpu())
+        axis       = 0
+        new_shape  = [2, 5]
+        out        = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb1bc6e3d0>
+        slice_out  = [slice(None, None, 1), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 1), slice(None, None, None))
+        other      = NDArray([[6. 1. 4. 4. 8.]
+ [4. 6. 3. 5. 8.]], device=cpu())
+        self       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+        view       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb1a8622f0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb1b2e5dd0>
+shape = (2, 5), strides = (5, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb1a8622f0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb1b2e5dd0>
+shape      = (2, 5)
+strides    = (5, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+_______ test_dilate_forward[needle.backend_ndarray.ndarray_backend_cuda] _______
+
+device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    def test_dilate_forward(device):
+        np.random.seed(0)
+        device = ndl.cpu()
+    
+        _A = np.random.randint(1, 10, size=(2, 5))
+        A = ndl.Tensor(_A, device=device)
+>       assert np.linalg.norm(ndl.dilate(A, dilation=0, axes=(0,)).numpy() - np.array([[6., 1., 4., 4., 8.],
+           [4., 6., 3., 5., 8.]])) < 1e-5
+
+A          = needle.Tensor([[6. 1. 4. 4. 8.]
+ [4. 6. 3. 5. 8.]])
+_A         = array([[6, 1, 4, 4, 8],
+       [4, 6, 3, 5, 8]])
+device     = cpu()
+
+tests/hw4/test_conv.py:202: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[6. 1. 4. 4. 8.]
+ [4. 6. 3. 5. 8.]])
+        axes       = (0,)
+        dilation   = 0
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[6. 1. 4. 4. 8.]
+ [4. 6. 3. 5. 8.]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19d12650>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[6. 1. 4. 4. 8.]
+ [4. 6. 3. 5. 8.]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19d12650>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19d12890>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19d12890>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[6. 1. 4. 4. 8.]
+ [4. 6. 3. 5. 8.]], device=cpu())
+        axis       = 0
+        new_shape  = [2, 5]
+        out        = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19d12650>
+        slice_out  = [slice(None, None, 1), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 1), slice(None, None, None))
+        other      = NDArray([[6. 1. 4. 4. 8.]
+ [4. 6. 3. 5. 8.]], device=cpu())
+        self       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+        view       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19d129f0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19d12850>
+shape = (2, 5), strides = (5, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19d129f0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19d12850>
+shape      = (2, 5)
+strides    = (5, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+___ test_dilate_backward[params0-needle.backend_ndarray.ndarray_backend_cpu] ___
+
+params = {'axes': (0,), 'd': 1, 'shape': (2, 5)}, device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (0,)
+d          = 1
+device     = cpu()
+params     = {'axes': (0,), 'd': 1, 'shape': (2, 5)}
+shape      = (2, 5)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (0,), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]])
+        axes       = (0,)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19e00fd0>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19e00fd0>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19e01010>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19e01010>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cpu())
+        axis       = 0
+        new_shape  = [4, 5]
+        out        = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19e00fd0>
+        slice_out  = [slice(None, None, 2), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 2), slice(None, None, None))
+        other      = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cpu())
+        self       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+        view       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19e010f0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19e00850>
+shape = (2, 5), strides = (10, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19e010f0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19e00850>
+shape      = (2, 5)
+strides    = (10, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params0-needle.backend_ndarray.ndarray_backend_cuda] ___
+
+params = {'axes': (0,), 'd': 1, 'shape': (2, 5)}, device = cuda()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (0,)
+d          = 1
+device     = cuda()
+params     = {'axes': (0,), 'd': 1, 'shape': (2, 5)}
+shape      = (2, 5)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (0,), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]])
+        axes       = (0,)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19d38b10>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19d38b10>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19d38b50>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19d38b50>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cuda())
+        axis       = 0
+        new_shape  = [4, 5]
+        out        = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19d38b10>
+        slice_out  = [slice(None, None, 2), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 2), slice(None, None, None))
+        other      = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cuda())
+        self       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+        view       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19d38ab0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19d38810>
+shape = (2, 5), strides = (10, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19d38ab0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19d38810>
+shape      = (2, 5)
+strides    = (10, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+___ test_dilate_backward[params1-needle.backend_ndarray.ndarray_backend_cpu] ___
+
+params = {'axes': (1,), 'd': 2, 'shape': (2, 5)}, device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (1,)
+d          = 2
+device     = cpu()
+params     = {'axes': (1,), 'd': 2, 'shape': (2, 5)}
+shape      = (2, 5)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (1,), 'dilation': 2}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]])
+        axes       = (1,)
+        dilation   = 2
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19bc2e10>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19bc2e10>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19bc2d50>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19bc2d50>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cpu())
+        axis       = 1
+        new_shape  = [2, 15]
+        out        = NDArray([[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19bc2e10>
+        slice_out  = [slice(None, None, None), slice(None, None, 3)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, None), slice(None, None, 3))
+        other      = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cpu())
+        self       = NDArray([[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]], device=cpu_numpy())
+        view       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19bc2830>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19bc3790>
+shape = (2, 5), strides = (15, 3), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19bc2830>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19bc3790>
+shape      = (2, 5)
+strides    = (15, 3)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params1-needle.backend_ndarray.ndarray_backend_cuda] ___
+
+params = {'axes': (1,), 'd': 2, 'shape': (2, 5)}, device = cuda()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (1,)
+d          = 2
+device     = cuda()
+params     = {'axes': (1,), 'd': 2, 'shape': (2, 5)}
+shape      = (2, 5)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (1,), 'dilation': 2}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]])
+        axes       = (1,)
+        dilation   = 2
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19aa3cd0>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19aa3cd0>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19aa3c10>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19aa3c10>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cuda())
+        axis       = 1
+        new_shape  = [2, 15]
+        out        = NDArray([[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19aa3cd0>
+        slice_out  = [slice(None, None, None), slice(None, None, 3)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, None), slice(None, None, 3))
+        other      = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cuda())
+        self       = NDArray([[0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]], device=cpu_numpy())
+        view       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19aa2c70>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19aa2ad0>
+shape = (2, 5), strides = (15, 3), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19aa2c70>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19aa2ad0>
+shape      = (2, 5)
+strides    = (15, 3)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+___ test_dilate_backward[params2-needle.backend_ndarray.ndarray_backend_cpu] ___
+
+params = {'axes': (0, 1), 'd': 1, 'shape': (2, 5)}, device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (0, 1)
+d          = 1
+device     = cpu()
+params     = {'axes': (0, 1), 'd': 1, 'shape': (2, 5)}
+shape      = (2, 5)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (0, 1), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]])
+        axes       = (0, 1)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19b3db10>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19b3db10>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19b3dad0>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19b3dad0>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cpu())
+        axis       = 1
+        new_shape  = [4, 10]
+        out        = NDArray([[0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19b3db10>
+        slice_out  = [slice(None, None, 2), slice(None, None, 2)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 2), slice(None, None, 2))
+        other      = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cpu())
+        self       = NDArray([[0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]], device=cpu_numpy())
+        view       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19b3d9f0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19b3e150>
+shape = (2, 5), strides = (20, 2), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19b3d9f0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19b3e150>
+shape      = (2, 5)
+strides    = (20, 2)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params2-needle.backend_ndarray.ndarray_backend_cuda] ___
+
+params = {'axes': (0, 1), 'd': 1, 'shape': (2, 5)}, device = cuda()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (0, 1)
+d          = 1
+device     = cuda()
+params     = {'axes': (0, 1), 'd': 1, 'shape': (2, 5)}
+shape      = (2, 5)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (0, 1), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]])
+        axes       = (0, 1)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19d0dad0>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19d0dad0>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19d0da90>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19d0da90>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cuda())
+        axis       = 1
+        new_shape  = [4, 10]
+        out        = NDArray([[0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19d0dad0>
+        slice_out  = [slice(None, None, 2), slice(None, None, 2)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 2), slice(None, None, 2))
+        other      = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cuda())
+        self       = NDArray([[0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]], device=cpu_numpy())
+        view       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19d0da30>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19d0dc10>
+shape = (2, 5), strides = (20, 2), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19d0da30>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19d0dc10>
+shape      = (2, 5)
+strides    = (20, 2)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+___ test_dilate_backward[params3-needle.backend_ndarray.ndarray_backend_cpu] ___
+
+params = {'axes': (0, 1), 'd': 0, 'shape': (2, 5)}, device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (0, 1)
+d          = 0
+device     = cpu()
+params     = {'axes': (0, 1), 'd': 0, 'shape': (2, 5)}
+shape      = (2, 5)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (0, 1), 'dilation': 0}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]])
+        axes       = (0, 1)
+        dilation   = 0
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19dd4590>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19dd4590>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19dd4550>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19dd4550>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cpu())
+        axis       = 1
+        new_shape  = [2, 5]
+        out        = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19dd4590>
+        slice_out  = [slice(None, None, 1), slice(None, None, 1)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 1), slice(None, None, 1))
+        other      = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cpu())
+        self       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+        view       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19dd41f0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19dd4850>
+shape = (2, 5), strides = (5, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19dd41f0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19dd4850>
+shape      = (2, 5)
+strides    = (5, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params3-needle.backend_ndarray.ndarray_backend_cuda] ___
+
+params = {'axes': (0, 1), 'd': 0, 'shape': (2, 5)}, device = cuda()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (0, 1)
+d          = 0
+device     = cuda()
+params     = {'axes': (0, 1), 'd': 0, 'shape': (2, 5)}
+shape      = (2, 5)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (0, 1), 'dilation': 0}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]])
+        axes       = (0, 1)
+        dilation   = 0
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19c5e410>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19c5e410>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19c5e490>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19c5e490>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cuda())
+        axis       = 1
+        new_shape  = [2, 5]
+        out        = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19c5e410>
+        slice_out  = [slice(None, None, 1), slice(None, None, 1)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 1), slice(None, None, 1))
+        other      = NDArray([[ 1.7640524   0.4001572   0.978738    2.2408931   1.867558  ]
+ [-0.9772779   0.95008844 -0.1513572  -0.10321885  0.41059852]], device=cuda())
+        self       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+        view       = NDArray([[0. 0. 0. 0. 0.]
+ [0. 0. 0. 0. 0.]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19c5e1f0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19c5dd90>
+shape = (2, 5), strides = (5, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19c5e1f0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19c5dd90>
+shape      = (2, 5)
+strides    = (5, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+___ test_dilate_backward[params4-needle.backend_ndarray.ndarray_backend_cpu] ___
+
+params = {'axes': (0, 1), 'd': 2, 'shape': (2, 3, 3, 4)}, device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (0, 1)
+d          = 2
+device     = cpu()
+params     = {'axes': (0, 1), 'd': 2, 'shape': (2, 3, 3, 4)}
+shape      = (2, 3, 3, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (0, 1), 'dilation': 2}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7262826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]])
+        axes       = (0, 1)
+        dilation   = 2
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19ced710>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19ced710>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19ced7d0>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19ced7d0>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cpu())
+        axis       = 1
+        new_shape  = [6, 9, 3, 4]
+        out        = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19ced710>
+        slice_out  = [slice(None, None, 3), slice(None, None, 3), slice(None, None, None), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 3), slice(None, None, 3), slice(None, None, None), slice(None, None, None))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cpu())
+        self       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19ced530>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19ced090>
+shape = (2, 3, 3, 4), strides = (324, 36, 4, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19ced530>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19ced090>
+shape      = (2, 3, 3, 4)
+strides    = (324, 36, 4, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params4-needle.backend_ndarray.ndarray_backend_cuda] ___
+
+params = {'axes': (0, 1), 'd': 2, 'shape': (2, 3, 3, 4)}, device = cuda()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (0, 1)
+d          = 2
+device     = cuda()
+params     = {'axes': (0, 1), 'd': 2, 'shape': (2, 3, 3, 4)}
+shape      = (2, 3, 3, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (0, 1), 'dilation': 2}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7262826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]])
+        axes       = (0, 1)
+        dilation   = 2
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19d8a410>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19d8a410>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19d8a310>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19d8a310>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cuda())
+        axis       = 1
+        new_shape  = [6, 9, 3, 4]
+        out        = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19d8a410>
+        slice_out  = [slice(None, None, 3), slice(None, None, 3), slice(None, None, None), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 3), slice(None, None, 3), slice(None, None, None), slice(None, None, None))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cuda())
+        self       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19d8a3b0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19d8a610>
+shape = (2, 3, 3, 4), strides = (324, 36, 4, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19d8a3b0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19d8a610>
+shape      = (2, 3, 3, 4)
+strides    = (324, 36, 4, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+___ test_dilate_backward[params5-needle.backend_ndarray.ndarray_backend_cpu] ___
+
+params = {'axes': (0, 1), 'd': 3, 'shape': (3, 3, 6, 4)}, device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (0, 1)
+d          = 3
+device     = cpu()
+params     = {'axes': (0, 1), 'd': 3, 'shape': (3, 3, 6, 4)}
+shape      = (3, 3, 6, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (0, 1), 'dilation': 3}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7380309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]])
+        axes       = (0, 1)
+        dilation   = 3
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19df8cd0>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19df8cd0>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19df8dd0>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19df8dd0>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]], device=cpu())
+        axis       = 1
+        new_shape  = [12, 12, 6, 4]
+        out        = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19df8cd0>
+        slice_out  = [slice(None, None, 4), slice(None, None, 4), slice(None, None, None), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 4), slice(None, None, 4), slice(None, None, None), slice(None, None, None))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]], device=cpu())
+        self       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19df8cf0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19df88d0>
+shape = (3, 3, 6, 4), strides = (1152, 96, 4, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19df8cf0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19df88d0>
+shape      = (3, 3, 6, 4)
+strides    = (1152, 96, 4, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params5-needle.backend_ndarray.ndarray_backend_cuda] ___
+
+params = {'axes': (0, 1), 'd': 3, 'shape': (3, 3, 6, 4)}, device = cuda()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (0, 1)
+d          = 3
+device     = cuda()
+params     = {'axes': (0, 1), 'd': 3, 'shape': (3, 3, 6, 4)}
+shape      = (3, 3, 6, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (0, 1), 'dilation': 3}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7380309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]])
+        axes       = (0, 1)
+        dilation   = 3
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19bccf50>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19bccf50>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19bcc610>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19bcc610>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]], device=cuda())
+        axis       = 1
+        new_shape  = [12, 12, 6, 4]
+        out        = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19bccf50>
+        slice_out  = [slice(None, None, 4), slice(None, None, 4), slice(None, None, None), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 4), slice(None, None, 4), slice(None, None, None), slice(None, None, None))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]], device=cuda())
+        self       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19bcff30>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19bcf250>
+shape = (3, 3, 6, 4), strides = (1152, 96, 4, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19bcff30>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19bcf250>
+shape      = (3, 3, 6, 4)
+strides    = (1152, 96, 4, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+___ test_dilate_backward[params6-needle.backend_ndarray.ndarray_backend_cpu] ___
+
+params = {'axes': (1, 2), 'd': 0, 'shape': (2, 3, 3, 4)}, device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (1, 2)
+d          = 0
+device     = cpu()
+params     = {'axes': (1, 2), 'd': 0, 'shape': (2, 3, 3, 4)}
+shape      = (2, 3, 3, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (1, 2), 'dilation': 0}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7262826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]])
+        axes       = (1, 2)
+        dilation   = 0
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19bc4c50>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19bc4c50>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19bc4cd0>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19bc4cd0>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cpu())
+        axis       = 2
+        new_shape  = [2, 3, 3, 4]
+        out        = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19bc4c50>
+        slice_out  = [slice(None, None, None), slice(None, None, 1), slice(None, None, 1), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, None), slice(None, None, 1), slice(None, None, 1), slice(None, None, None))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cpu())
+        self       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19bc4cf0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19bc49d0>
+shape = (2, 3, 3, 4), strides = (36, 12, 4, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19bc4cf0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19bc49d0>
+shape      = (2, 3, 3, 4)
+strides    = (36, 12, 4, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params6-needle.backend_ndarray.ndarray_backend_cuda] ___
+
+params = {'axes': (1, 2), 'd': 0, 'shape': (2, 3, 3, 4)}, device = cuda()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (1, 2)
+d          = 0
+device     = cuda()
+params     = {'axes': (1, 2), 'd': 0, 'shape': (2, 3, 3, 4)}
+shape      = (2, 3, 3, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (1, 2), 'dilation': 0}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7262826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]])
+        axes       = (1, 2)
+        dilation   = 0
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19aa4150>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19aa4150>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19aa5350>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19aa5350>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cuda())
+        axis       = 2
+        new_shape  = [2, 3, 3, 4]
+        out        = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19aa4150>
+        slice_out  = [slice(None, None, None), slice(None, None, 1), slice(None, None, 1), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, None), slice(None, None, 1), slice(None, None, 1), slice(None, None, None))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cuda())
+        self       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19aa4e30>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19aa4bd0>
+shape = (2, 3, 3, 4), strides = (36, 12, 4, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19aa4e30>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19aa4bd0>
+shape      = (2, 3, 3, 4)
+strides    = (36, 12, 4, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+___ test_dilate_backward[params7-needle.backend_ndarray.ndarray_backend_cpu] ___
+
+params = {'axes': (1, 2), 'd': 1, 'shape': (2, 3, 3, 4)}, device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (1, 2)
+d          = 1
+device     = cpu()
+params     = {'axes': (1, 2), 'd': 1, 'shape': (2, 3, 3, 4)}
+shape      = (2, 3, 3, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (1, 2), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7262826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]])
+        axes       = (1, 2)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19bc1090>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19bc1090>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19bc1fd0>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19bc1fd0>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cpu())
+        axis       = 2
+        new_shape  = [2, 6, 6, 4]
+        out        = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19bc1090>
+        slice_out  = [slice(None, None, None), slice(None, None, 2), slice(None, None, 2), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, None), slice(None, None, 2), slice(None, None, 2), slice(None, None, None))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cpu())
+        self       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19bc19f0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19bc0790>
+shape = (2, 3, 3, 4), strides = (144, 48, 8, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19bc19f0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19bc0790>
+shape      = (2, 3, 3, 4)
+strides    = (144, 48, 8, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params7-needle.backend_ndarray.ndarray_backend_cuda] ___
+
+params = {'axes': (1, 2), 'd': 1, 'shape': (2, 3, 3, 4)}, device = cuda()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (1, 2)
+d          = 1
+device     = cuda()
+params     = {'axes': (1, 2), 'd': 1, 'shape': (2, 3, 3, 4)}
+shape      = (2, 3, 3, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (1, 2), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7262826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]])
+        axes       = (1, 2)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19da9650>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19da9650>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19da9610>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19da9610>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cuda())
+        axis       = 2
+        new_shape  = [2, 6, 6, 4]
+        out        = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19da9650>
+        slice_out  = [slice(None, None, None), slice(None, None, 2), slice(None, None, 2), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, None), slice(None, None, 2), slice(None, None, 2), slice(None, None, None))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cuda())
+        self       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19da95b0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19da97d0>
+shape = (2, 3, 3, 4), strides = (144, 48, 8, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19da95b0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19da97d0>
+shape      = (2, 3, 3, 4)
+strides    = (144, 48, 8, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+___ test_dilate_backward[params8-needle.backend_ndarray.ndarray_backend_cpu] ___
+
+params = {'axes': (1, 2), 'd': 1, 'shape': (3, 3, 6, 4)}, device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (1, 2)
+d          = 1
+device     = cpu()
+params     = {'axes': (1, 2), 'd': 1, 'shape': (3, 3, 6, 4)}
+shape      = (3, 3, 6, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (1, 2), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7380309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]])
+        axes       = (1, 2)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb140bd010>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb140bd010>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb140bcf50>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb140bcf50>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]], device=cpu())
+        axis       = 2
+        new_shape  = [3, 6, 12, 4]
+        out        = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb140bd010>
+        slice_out  = [slice(None, None, None), slice(None, None, 2), slice(None, None, 2), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, None), slice(None, None, 2), slice(None, None, 2), slice(None, None, None))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]], device=cpu())
+        self       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb140bcfb0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb140bcc90>
+shape = (3, 3, 6, 4), strides = (288, 96, 8, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb140bcfb0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb140bcc90>
+shape      = (3, 3, 6, 4)
+strides    = (288, 96, 8, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params8-needle.backend_ndarray.ndarray_backend_cuda] ___
+
+params = {'axes': (1, 2), 'd': 1, 'shape': (3, 3, 6, 4)}, device = cuda()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (1, 2)
+d          = 1
+device     = cuda()
+params     = {'axes': (1, 2), 'd': 1, 'shape': (3, 3, 6, 4)}
+shape      = (3, 3, 6, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (1, 2), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7380309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]])
+        axes       = (1, 2)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19a64b90>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19a64b90>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19a66d10>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19a66d10>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]], device=cuda())
+        axis       = 2
+        new_shape  = [3, 6, 12, 4]
+        out        = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19a64b90>
+        slice_out  = [slice(None, None, None), slice(None, None, 2), slice(None, None, 2), slice(None, None, None)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, None), slice(None, None, 2), slice(None, None, 2), slice(None, None, None))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]], device=cuda())
+        self       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19a670f0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19a66e50>
+shape = (3, 3, 6, 4), strides = (288, 96, 8, 1), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19a670f0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19a66e50>
+shape      = (3, 3, 6, 4)
+strides    = (288, 96, 8, 1)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+___ test_dilate_backward[params9-needle.backend_ndarray.ndarray_backend_cpu] ___
+
+params = {'axes': (2, 3), 'd': 1, 'shape': (2, 3, 3, 4)}, device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (2, 3)
+d          = 1
+device     = cpu()
+params     = {'axes': (2, 3), 'd': 1, 'shape': (2, 3, 3, 4)}
+shape      = (2, 3, 3, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (2, 3), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7262826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]])
+        axes       = (2, 3)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19cec390>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19cec390>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19cedbd0>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19cedbd0>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cpu())
+        axis       = 3
+        new_shape  = [2, 3, 6, 8]
+        out        = NDArray([[[[0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0.... 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19cec390>
+        slice_out  = [slice(None, None, None), slice(None, None, None), slice(None, None, 2), slice(None, None, 2)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, None), slice(None, None, None), slice(None, None, 2), slice(None, None, 2))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cpu())
+        self       = NDArray([[[[0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0.... 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19ceddf0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19ceced0>
+shape = (2, 3, 3, 4), strides = (144, 48, 16, 2), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19ceddf0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19ceced0>
+shape      = (2, 3, 3, 4)
+strides    = (144, 48, 16, 2)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params9-needle.backend_ndarray.ndarray_backend_cuda] ___
+
+params = {'axes': (2, 3), 'd': 1, 'shape': (2, 3, 3, 4)}, device = cuda()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (2, 3)
+d          = 1
+device     = cuda()
+params     = {'axes': (2, 3), 'd': 1, 'shape': (2, 3, 3, 4)}
+shape      = (2, 3, 3, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (2, 3), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7262826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]])
+        axes       = (2, 3)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb140d14d0>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb140d14d0>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb140d15d0>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb140d15d0>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cuda())
+        axis       = 3
+        new_shape  = [2, 3, 6, 8]
+        out        = NDArray([[[[0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0.... 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb140d14d0>
+        slice_out  = [slice(None, None, None), slice(None, None, None), slice(None, None, 2), slice(None, None, 2)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, None), slice(None, None, None), slice(None, None, 2), slice(None, None, 2))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cuda())
+        self       = NDArray([[[[0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0.... 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb140d1570>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb140d22d0>
+shape = (2, 3, 3, 4), strides = (144, 48, 16, 2), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb140d1570>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb140d22d0>
+shape      = (2, 3, 3, 4)
+strides    = (144, 48, 16, 2)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params10-needle.backend_ndarray.ndarray_backend_cpu] ___
+
+params = {'axes': (2, 3), 'd': 1, 'shape': (3, 3, 6, 4)}, device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (2, 3)
+d          = 1
+device     = cpu()
+params     = {'axes': (2, 3), 'd': 1, 'shape': (3, 3, 6, 4)}
+shape      = (3, 3, 6, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (2, 3), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7380309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]])
+        axes       = (2, 3)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19b2ec50>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19b2ec50>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19b2ec10>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19b2ec10>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]], device=cpu())
+        axis       = 3
+        new_shape  = [3, 3, 12, 8]
+        out        = NDArray([[[[0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0.... 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19b2ec50>
+        slice_out  = [slice(None, None, None), slice(None, None, None), slice(None, None, 2), slice(None, None, 2)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, None), slice(None, None, None), slice(None, None, 2), slice(None, None, 2))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]], device=cpu())
+        self       = NDArray([[[[0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0.... 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19b2ebb0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19b2ef10>
+shape = (3, 3, 6, 4), strides = (288, 96, 16, 2), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19b2ebb0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19b2ef10>
+shape      = (3, 3, 6, 4)
+strides    = (288, 96, 16, 2)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params10-needle.backend_ndarray.ndarray_backend_cuda] __
+
+params = {'axes': (2, 3), 'd': 1, 'shape': (3, 3, 6, 4)}, device = cuda()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (2, 3)
+d          = 1
+device     = cuda()
+params     = {'axes': (2, 3), 'd': 1, 'shape': (3, 3, 6, 4)}
+shape      = (3, 3, 6, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (2, 3), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7380309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]])
+        axes       = (2, 3)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19c5c3d0>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...80309 ]
+   [ 0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19c5c3d0>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19c5e590>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19c5e590>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]], device=cuda())
+        axis       = 3
+        new_shape  = [3, 3, 12, 8]
+        out        = NDArray([[[[0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0.... 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19c5c3d0>
+        slice_out  = [slice(None, None, None), slice(None, None, None), slice(None, None, 2), slice(None, None, 2)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, None), slice(None, None, None), slice(None, None, 2), slice(None, None, 2))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.2799246  -0.09815039  0.9101789   0.3172182 ]
+   [ 0.78632796 -0.4664191  -0.94444627 -0.4100497 ]]]], device=cuda())
+        self       = NDArray([[[[0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0.... 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0. 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0.... 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19c5ecb0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19c5e0d0>
+shape = (3, 3, 6, 4), strides = (288, 96, 16, 2), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb19c5ecb0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19c5e0d0>
+shape      = (3, 3, 6, 4)
+strides    = (288, 96, 16, 2)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params11-needle.backend_ndarray.ndarray_backend_cpu] ___
+
+params = {'axes': (0, 1, 2, 3), 'd': 1, 'shape': (2, 3, 3, 4)}, device = cpu()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (0, 1, 2, 3)
+d          = 1
+device     = cpu()
+params     = {'axes': (0, 1, 2, 3), 'd': 1, 'shape': (2, 3, 3, 4)}
+shape      = (2, 3, 3, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (0, 1, 2, 3), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7262826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]])
+        axes       = (0, 1, 2, 3)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19cc7c90>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19cc7c90>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19cc7c50>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb19cc7c50>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cpu())
+        axis       = 3
+        new_shape  = [4, 6, 6, 8]
+        out        = NDArray([[[[0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+  ... ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb19cc7c90>
+        slice_out  = [slice(None, None, 2), slice(None, None, 2), slice(None, None, 2), slice(None, None, 2)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 2), slice(None, None, 2), slice(None, None, 2), slice(None, None, 2))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [... 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cpu())
+        self       = NDArray([[[[0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+  ... ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19cc49b0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19cc6750>
+shape = (2, 3, 3, 4), strides = (576, 96, 16, 2), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cpu.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cpu.Array object at 0x7fbb19cc49b0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb19cc6750>
+shape      = (2, 3, 3, 4)
+strides    = (576, 96, 16, 2)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+__ test_dilate_backward[params11-needle.backend_ndarray.ndarray_backend_cuda] __
+
+params = {'axes': (0, 1, 2, 3), 'd': 1, 'shape': (2, 3, 3, 4)}, device = cuda()
+
+    @pytest.mark.parametrize("device", _DEVICES)
+    @pytest.mark.parametrize("params", dilate_backward_params)
+    def test_dilate_backward(params, device):
+        np.random.seed(0)
+        shape, d, axes = params['shape'], params['d'], params['axes']
+>       backward_check(ndl.dilate, ndl.Tensor(np.random.randn(*shape), device=device), dilation=d, axes=axes)
+
+axes       = (0, 1, 2, 3)
+d          = 1
+device     = cuda()
+params     = {'axes': (0, 1, 2, 3), 'd': 1, 'shape': (2, 3, 3, 4)}
+shape      = (2, 3, 3, 4)
+
+tests/hw4/test_conv.py:296: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/hw4/test_conv.py:16: in backward_check
+    out = f(*args, **kwargs)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        eps        = 0.001
+        f          = <function dilate at 0x7fbb2c2b4720>
+        kwargs     = {'axes': (0, 1, 2, 3), 'dilation': 1}
+python/needle/ops/ops_mathematic.py:455: in dilate
+    return Dilate(axes, dilation)(a)
+        a          = needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ...7262826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]])
+        axes       = (0, 1, 2, 3)
+        dilation   = 1
+python/needle/autograd.py:80: in __call__
+    return Tensor.make_from_op(self, args)
+        args       = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb140d1110>
+python/needle/autograd.py:242: in make_from_op
+    tensor.realize_cached_data()
+        inputs     = (needle.Tensor([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572...62826 ]
+   [ 0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]]),)
+        op         = <needle.ops.ops_mathematic.Dilate object at 0x7fbb140d1110>
+        tensor     = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb140d2310>
+python/needle/autograd.py:107: in realize_cached_data
+    self.cached_data = self.op.compute(
+        self       = <[AttributeError("'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'") raised in repr()] Tensor object at 0x7fbb140d2310>
+python/needle/ops/ops_mathematic.py:444: in compute
+    out[tuple(slice_out)] = a
+        a          = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cuda())
+        axis       = 3
+        new_shape  = [4, 6, 6, 8]
+        out        = NDArray([[[[0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+  ... ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]]]], device=cpu_numpy())
+        self       = <needle.ops.ops_mathematic.Dilate object at 0x7fbb140d1110>
+        slice_out  = [slice(None, None, 2), slice(None, None, 2), slice(None, None, 2), slice(None, None, 2)]
+python/needle/backend_ndarray/ndarray.py:393: in __setitem__
+    self.device.ewise_setitem(
+        idxs       = (slice(None, None, 2), slice(None, None, 2), slice(None, None, 2), slice(None, None, 2))
+        other      = NDArray([[[[ 1.7640524   0.4001572   0.978738    2.2408931 ]
+   [ 1.867558   -0.9772779   0.95008844 -0.1513572 ]
+   [...0.17742614 -0.40178093 -1.6301984   0.46278226]
+   [-0.9072984   0.0519454   0.7290906   0.12898292]]]], device=cuda())
+        self       = NDArray([[[[0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+  ... ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]
+   [0. 0. 0. ... 0. 0. 0.]]]], device=cpu_numpy())
+        view       = NDArray([[[[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[.... 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0.]
+   [0. 0. 0. 0.]
+   [0. 0. 0. 0.]]]], device=cpu_numpy())
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb140d15b0>
+out = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb140d1ed0>
+shape = (2, 3, 3, 4), strides = (576, 96, 16, 2), offset = 0
+
+    def ewise_setitem(a, out, shape, strides, offset):
+>       to_numpy(out, shape, strides, offset)[:] = a.array.reshape(shape)
+E       AttributeError: 'needle.backend_ndarray.ndarray_backend_cuda.Array' object has no attribute 'array'
+
+a          = <needle.backend_ndarray.ndarray_backend_cuda.Array object at 0x7fbb140d15b0>
+offset     = 0
+out        = <needle.backend_ndarray.ndarray_backend_numpy.Array object at 0x7fbb140d1ed0>
+shape      = (2, 3, 3, 4)
+strides    = (576, 96, 16, 2)
+
+python/needle/backend_ndarray/ndarray_backend_numpy.py:37: AttributeError
+=========================== short test summary info ============================
+FAILED tests/hw4/test_conv.py::test_dilate_forward[needle.backend_ndarray.ndarray_backend_cpu]
+FAILED tests/hw4/test_conv.py::test_dilate_forward[needle.backend_ndarray.ndarray_backend_cuda]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params0-needle.backend_ndarray.ndarray_backend_cpu]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params0-needle.backend_ndarray.ndarray_backend_cuda]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params1-needle.backend_ndarray.ndarray_backend_cpu]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params1-needle.backend_ndarray.ndarray_backend_cuda]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params2-needle.backend_ndarray.ndarray_backend_cpu]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params2-needle.backend_ndarray.ndarray_backend_cuda]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params3-needle.backend_ndarray.ndarray_backend_cpu]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params3-needle.backend_ndarray.ndarray_backend_cuda]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params4-needle.backend_ndarray.ndarray_backend_cpu]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params4-needle.backend_ndarray.ndarray_backend_cuda]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params5-needle.backend_ndarray.ndarray_backend_cpu]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params5-needle.backend_ndarray.ndarray_backend_cuda]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params6-needle.backend_ndarray.ndarray_backend_cpu]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params6-needle.backend_ndarray.ndarray_backend_cuda]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params7-needle.backend_ndarray.ndarray_backend_cpu]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params7-needle.backend_ndarray.ndarray_backend_cuda]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params8-needle.backend_ndarray.ndarray_backend_cpu]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params8-needle.backend_ndarray.ndarray_backend_cuda]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params9-needle.backend_ndarray.ndarray_backend_cpu]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params9-needle.backend_ndarray.ndarray_backend_cuda]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params10-needle.backend_ndarray.ndarray_backend_cpu]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params10-needle.backend_ndarray.ndarray_backend_cuda]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params11-needle.backend_ndarray.ndarray_backend_cpu]
+FAILED tests/hw4/test_conv.py::test_dilate_backward[params11-needle.backend_ndarray.ndarray_backend_cuda]
+===================== 26 failed, 1777 deselected in 6.47s ======================

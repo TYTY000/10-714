@@ -543,8 +543,6 @@ CUDA_CUDART_LIBRARY-ADVANCED:INTERNAL=1
 CUDA_CUDA_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_GENERATED_OUTPUT_DIR
 CUDA_GENERATED_OUTPUT_DIR-ADVANCED:INTERNAL=1
-//Returned GPU architectures from detect_gpus tool
-CUDA_GPU_DETECT_OUTPUT:INTERNAL=8.9
 //ADVANCED property for variable: CUDA_HOST_COMPILATION_CPP
 CUDA_HOST_COMPILATION_CPP-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_NVCC_EXECUTABLE
@@ -663,10 +661,6 @@ _Python_Interpreter_REASON_FAILURE:INTERNAL=
 _Python_LIBRARY_RELEASE:INTERNAL=/root/miniconda3/lib/libpython3.11.so
 //NumPy reason failure
 _Python_NumPy_REASON_FAILURE:INTERNAL=
-//Result of TRY_COMPILE
-compile_result:INTERNAL=TRUE
 //Directories where pybind11 and possibly Python headers are located
 pybind11_INCLUDE_DIRS:INTERNAL=/root/miniconda3/lib/python3.11/site-packages/pybind11/include;/root/miniconda3/include/python3.11
-//Result of try_run()
-run_result:INTERNAL=0
 

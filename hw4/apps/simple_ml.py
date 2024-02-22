@@ -1,5 +1,3 @@
-"""hw1/apps/simple_ml.py"""
-
 import struct
 import gzip
 import numpy as np
@@ -13,6 +11,7 @@ import needle.nn as nn
 from apps.models import *
 import time
 device = ndl.cpu()
+from needle.autograd import Tensor
 
 def parse_mnist(image_filesname, label_filename):
     """Read an images and labels file in MNIST format.  See this page:
@@ -91,7 +90,7 @@ def nn_epoch(X, y, W1, W2, lr=0.1, batch=100):
     ### END YOUR SOLUTION
 
 ### CIFAR-10 training ###
-def epoch_general_cifar10(dataloader, model, loss_fn=nn.SoftmaxLoss(), opt=None):
+def epoch_general_cifar10(dataloader, model, loss_fn=nn.SoftmaxLoss(), opt=None, device=ndl.cpu()):
     """
     Iterates over the dataloader. If optimizer is not None, sets the
     model to train mode, and for each batch updates the model parameters.
@@ -109,13 +108,32 @@ def epoch_general_cifar10(dataloader, model, loss_fn=nn.SoftmaxLoss(), opt=None)
         avg_loss: average loss over dataset
     """
     np.random.seed(4)
-    ### BEGIN YOUR SOLUTION
-    raise NotImplementedError()
-    ### END YOUR SOLUTION
 
+    if opt:
+        model.train()
+    else:
+        model.eval()
+
+    losses = []
+    accus = []
+    for x, y in dataloader:
+        x = Tensor(x, device=device)
+        y = Tensor(y, device=device)
+        out = model(x)
+        loss = loss_fn()(out, y)
+        if opt:
+            opt.reset_grad()
+            loss.backward()
+            opt.step()
+
+        losses.append(loss.numpy())
+        accus.append((out.numpy().argmax(axis=1) == y.numpy()).sum() / y.shape[0])
+        del x, y, out, loss
+    return np.mean(accus), np.mean(losses)
+        
 
 def train_cifar10(model, dataloader, n_epochs=1, optimizer=ndl.optim.Adam,
-          lr=0.001, weight_decay=0.001, loss_fn=nn.SoftmaxLoss):
+          lr=0.001, weight_decay=0.001, loss_fn=nn.SoftmaxLoss, device=ndl.cpu()):
     """
     Performs {n_epochs} epochs of training.
 
@@ -133,9 +151,13 @@ def train_cifar10(model, dataloader, n_epochs=1, optimizer=ndl.optim.Adam,
         avg_loss: average loss over dataset from last epoch of training
     """
     np.random.seed(4)
-    ### BEGIN YOUR SOLUTION
-    raise NotImplementedError()
-    ### END YOUR SOLUTION
+
+    opt = optimizer(model.parameters(), lr=lr, weight_decay=weight_decay)
+    avg_acc, avg_loss = 0, 0
+    for epoch in range(n_epochs):
+        avg_acc, avg_loss = epoch_general_cifar10(dataloader, model, loss_fn, opt, device=device)
+        print(f"Epoch {epoch}: Accuracy=> {avg_acc} Loss=> {avg_loss}")
+    return avg_acc, avg_loss
 
 
 def evaluate_cifar10(model, dataloader, loss_fn=nn.SoftmaxLoss):
@@ -152,9 +174,9 @@ def evaluate_cifar10(model, dataloader, loss_fn=nn.SoftmaxLoss):
         avg_loss: average loss over dataset
     """
     np.random.seed(4)
-    ### BEGIN YOUR SOLUTION
-    raise NotImplementedError()
-    ### END YOUR SOLUTION
+    avg_acc, avg_loss = epoch_general_cifar10(dataloader, model, loss_fn)
+    print(f"Test : Accuracy=> {avg_acc} Loss=> {avg_loss}")
+    return avg_acc, avg_loss
 
 
 ### PTB training ###
@@ -179,36 +201,65 @@ def epoch_general_ptb(data, model, seq_len=40, loss_fn=nn.SoftmaxLoss(), opt=Non
         avg_loss: average loss over dataset
     """
     np.random.seed(4)
-    ### BEGIN YOUR SOLUTION
-    raise NotImplementedError()
-    ### END YOUR SOLUTION
+
+    if opt:
+        model.train()
+    else:
+        model.eval()
+
+    losses = []
+    accus = []
+    nbatch, batch_size = data.shape
+    h = None
+    for i in range(0, data.shape[0] - 1, seq_len):
+        x, y = ndl.data.get_batch(data, i, seq_len, device=device, dtype=dtype)
+        out, h = model(x, h)
+        loss = loss_fn()(out, y)
+        if opt:
+            opt.reset_grad()
+            loss.backward()
+            opt.step()
+
+        if isinstance(h, tuple):
+            h = tuple([hi.detach() for hi in h])
+        else:
+            h = h.detach()
+
+        losses.append(loss.numpy())
+        accus.append((out.numpy().argmax(axis=1) == y.numpy()).sum() / y.shape[0])
+        del x, y, out, loss
+    return np.mean(accus), np.mean(losses)
 
 
 def train_ptb(model, data, seq_len=40, n_epochs=1, optimizer=ndl.optim.SGD,
           lr=4.0, weight_decay=0.0, loss_fn=nn.SoftmaxLoss, clip=None,
           device=None, dtype="float32"):
     """
-    Performs {n_epochs} epochs of training.
+    performs {n_epochs} epochs of training.
 
-    Args:
-        model: LanguageModel instance
+    args:
+        model: languagemodel instance
         data: data of shape (nbatch, batch_size) given from batchify function
         seq_len: i.e. bptt, sequence length
         n_epochs: number of epochs (int)
-        optimizer: Optimizer class
+        optimizer: optimizer class
         lr: learning rate (float)
         weight_decay: weight decay (float)
-        loss_fn: nn.Module class
+        loss_fn: nn.module class
         clip: max norm of gradients (optional)
 
-    Returns:
+    returns:
         avg_acc: average accuracy over dataset from last epoch of training
         avg_loss: average loss over dataset from last epoch of training
     """
     np.random.seed(4)
-    ### BEGIN YOUR SOLUTION
-    raise NotImplementedError()
-    ### END YOUR SOLUTION
+
+    opt = optimizer(model.parameters(), lr=lr, weight_decay=weight_decay)
+    avg_acc, avg_loss = 0, 0
+    for epoch in range(n_epochs):
+        avg_acc, avg_loss = epoch_general_ptb(data, model, seq_len, loss_fn, opt, clip, device=device, dtype=dtype)
+        print(f"Epoch {epoch}: Accuracy=> {avg_acc} Loss=> {avg_loss}")
+    return avg_acc, avg_loss
 
 def evaluate_ptb(model, data, seq_len=40, loss_fn=nn.SoftmaxLoss,
         device=None, dtype="float32"):
@@ -226,9 +277,9 @@ def evaluate_ptb(model, data, seq_len=40, loss_fn=nn.SoftmaxLoss,
         avg_loss: average loss over dataset
     """
     np.random.seed(4)
-    ### BEGIN YOUR SOLUTION
-    raise NotImplementedError()
-    ### END YOUR SOLUTION
+    avg_acc, avg_loss = epoch_general_ptb(data, model, seq_len, loss_fn, device=device, dtype=dtype)
+    print(f"Test : Accuracy=> {avg_acc} Loss=> {avg_loss}")
+    return avg_acc, avg_loss
 
 ### CODE BELOW IS FOR ILLUSTRATION, YOU DO NOT NEED TO EDIT
 

@@ -21,7 +21,6 @@ class CIFAR10Dataset(Dataset):
         X - numpy array of images
         y - numpy array of labels
         """
-        ### BEGIN YOUR SOLUTION
         if train:
             self.X = np.empty((0, 3, 32, 32))
             self.y = np.empty((0,))
@@ -32,31 +31,27 @@ class CIFAR10Dataset(Dataset):
                     self.y = np.concatenate((self.y, data[b"labels"]), axis=0)
         else:
             with open(os.path.join(base_folder, "test_batch"), "rb") as f:
-                data = pickle.load(f, encoding='bytes')
+                data = pickle.load(f, encoding="bytes")
                 self.X = data[b"data"].reshape(-1, 3, 32, 32)
-                # NOTE: !!! y here is list
                 self.y = np.array(data[b"labels"])
 
-        self.X = self.X.astype(np.float32) / 255
+        self.X = self.X.astype(np.float32) / 255.0
         self.transforms = [] if transforms is None else transforms
-        ### END YOUR SOLUTION
+
 
     def __getitem__(self, index) -> object:
         """
         Returns the image, label at given index
         Image should be of shape (3, 32, 32)
         """
-        ### BEGIN YOUR SOLUTION
-        X, y = self.X[index], self.y[index]
-        for t in self.transforms:
-            X = t(X)
-        return X, y
-        ### END YOUR SOLUTION
+        images = self.X[index]
+        labels = self.y[index]
+        for func in self.transforms:
+            images = func(images)
+        return images, labels
 
     def __len__(self) -> int:
         """
         Returns the total number of examples in the dataset
         """
-        ### BEGIN YOUR SOLUTION
         return len(self.y)
-        ### END YOUR SOLUTION
