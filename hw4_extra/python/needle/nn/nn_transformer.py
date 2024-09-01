@@ -328,17 +328,18 @@ class Transformer(Module):
             x = ops.transpose(x, axes=(0, 1))
 
         ### BEGIN YOUR SOLUTION
-        # x => (seq_len, bs, input_dim)
-        print(x.shape)
+        # x => (bs, seq_len, input_dim)
         n, b, d = x.shape
-        x_emb = self.embedding(x.reshape((n*b,))).view(n, b, -1)
+        x_emb = self.embedding(x.reshape((n*b, d)))
         x_emb = x_emb.reshape((n,b,d,self.embedding.embedding_dim))
+        # x_emb = (bs, seq_len, input_dim, embedding_size)
+
+        x_emb = ops.summation(x_emb, axes=2)
         print(x_emb.shape)
-        # x_emb = (seq_len * bs, input_dim,  embedding_size)
-        # x = x + self.trans[0].attn.attn.matmul(x, x_emb)
-        # print(x.shape)
-        # for t in self.trans:
-        #     x = t(x)
+        x = x + x_emb
+        print(x.shape)
+        for t in self.trans:
+            x = t(x)
         ### END YOUR SOLUTION
 
         if not self.batch_first:
